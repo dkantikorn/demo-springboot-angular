@@ -1,4 +1,4 @@
-package entity;
+package com.spring.angular.demospringangular.entity;
 
 import lombok.Data;
 import lombok.Getter;
@@ -13,16 +13,25 @@ import java.io.Serializable;
 @Data
 @ToString
 @Entity
-public class Employee implements Serializable {
+@Table(name = "employees")
+public class EmployeeEntity implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(
+            name = "employees_sequence",
+            sequenceName = "employees_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.AUTO,
+            generator = "employees_sequence"
+    )
     @Column(nullable = false, updatable = false)
     private Long id;
 
     @NotBlank(message = "Employee name is mandatory")
     @Size(min = 2, max = 150, message = "Please provide employee name length between 2 - 150")
-    @Column(nullable = false, columnDefinition = "Employee name", length = 150)
+    @Column(nullable = false, length = 150)
     private String name;
 
     @NotBlank(message = "Email is a mandatory")
